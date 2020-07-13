@@ -26,6 +26,7 @@ call vundle#begin()
     "-------------------=== Code/Project navigation ===-------------
     Plugin 'scrooloose/nerdtree'                " Project and file navigation
     Plugin 'kien/ctrlp.vim'                     " Fast transitions on project files
+    Plugin 'mileszs/ack.vim'                    " Use a custom search tool in vim
 
     "-------------------=== Other ===-------------------------------
     Plugin 'bling/vim-airline'                  " Lean & mean status/tabline for vim
@@ -38,9 +39,8 @@ call vundle#begin()
     Plugin 'float168/vim-colors-cherryblossom'  " Colorscheme Cherryblossom
     Plugin 'itmammoth/doorboy.vim'              " Autoclose Brackets
     Plugin 'xuhdev/vim-latex-live-preview'      " latex live preview
-    Plugin 'yegappan/grep'                      " grep for vim
-    Plugin 'https://github.com/tpope/vim-unimpaired' " Bracket mappings
-    Plugin 'https://github.com/tpope/vim-repeat' " repeat plugin commands also with .
+    Plugin 'tpope/vim-unimpaired'               " Bracket mappings
+    Plugin 'tpope/vim-repeat'                   " repeat plugin commands also with .
 
     "-------------------=== Snippets support ===--------------------
     Plugin 'garbas/vim-snipmate'                " Snippets manager
@@ -50,7 +50,6 @@ call vundle#begin()
 
     "-------------------=== Languages support ===-------------------
     Plugin 'scrooloose/nerdcommenter'           " Comment plugin
-    Plugin 'mitsuhiko/vim-sparkup'              " Sparkup(XML/jinja/htlm-django/etc.) support
     Plugin 'Valloric/YouCompleteMe'             " Autocomplete plugin
     Plugin 'lervag/vimtex'                      " Tex Support for VIM
     Plugin 'rhysd/vim-grammarous'               " Grammer check support
@@ -60,6 +59,9 @@ call vundle#begin()
     Plugin 'klen/python-mode'                   " Python mode (docs, refactor, lints...)
     Plugin 'scrooloose/syntastic'               " Syntax checking plugin for Vim
 
+
+    "-------------------=== Coding Style  ===-----------------------------
+    Plugin 'vivien/vim-linux-coding-style'      " Linux kernel coding style guidelines
 
 call vundle#end()                           " required
 filetype on
@@ -102,14 +104,36 @@ set scrolloff=10                            " let 10 lines before/after cursor d
 
 set clipboard=unnamed                       " use system clipboard
 
+set splitbelow splitright                   " create splits to the bottom (hori. splits) and right (vert. splits)
+
 set exrc                                    " enable usage of additional .vimrc files from working directory
 set secure                                  " prohibit .vimrc files to execute shell, create files, etc...
+
+au FocusLost * silent! wa             " whenever the buffer loses focues save
 
 " Additional mappings for Esc (useful for MacBook with touch bar)
 inoremap jk <Esc>
 
 " Leader Key Mapping
 let mapleader = ","
+
+"=====================================================
+" FIle specific settings
+"=====================================================
+highlight ExtraWhitespace ctermbg=red guibg=red
+match ExtraWhitespace /\s\+$/
+autocmd BufWinEnter * match ExtraWhitespace /\s\+$/
+autocmd InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
+autocmd InsertLeave * match ExtraWhitespace /\s\+$/
+autocmd BufWinLeave * call clearmatches()
+
+"=====================================================
+" CtrlP settings
+"=====================================================
+let g:ctrlp_match_window = 'bottom,order:ttb'
+let g:ctrlp_switch_buffer = 0 
+let g:ctrlp_working_path_mode = 0 
+let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
 
 "=====================================================
 "" Tabs / Buffers settings
@@ -187,11 +211,6 @@ let g:NERDToggleCheckAllLines = 1
 let g:snippets_dir='~/.vim/vim-snippets/snippets'
 
 "=====================================================
-"" Riv.vim settings
-"=====================================================
-let g:riv_disable_folding=1
-
-"=====================================================
 " Pymode
 "=====================================================
 " Load show documentation plugin
@@ -223,7 +242,7 @@ let g:pymode_lint_ignore = "E501"
 
 " Pylint configuration file
 " If file not found use 'pylintrc' from python-mode plugin directory
-" let g:pymode_lint_config = "$HOME/.pylintrc"
+let g:pymode_lint_config = "$HOME/.pylintrc"
 
 " Check code every save
 let g:pymode_lint_write = 1
@@ -302,6 +321,7 @@ let g:pymode_syntax_highlight_exceptions = g:pymode_syntax_all
 
 "=====================================================
 " syntastic
+"=====================================================
 let g:syntastic_always_populate_loc_list=1
 let g:syntastic_auto_loc_list=1
 let g:syntastic_enable_signs=1
@@ -314,7 +334,9 @@ let g:syntastic_warning_symbol='x'
 let g:syntastic_style_warning_symbol='x'
 let g:syntastic_python_checkers=['flake8', 'pydocstyle', 'python']
 
+"=====================================================
 " YouCompleteMe
+"=====================================================
 set completeopt-=preview
 
 let g:ycm_global_ycm_extra_conf='~/.vim/ycm_extra_conf.py'
@@ -323,18 +345,19 @@ let g:ycm_confirm_extra_conf=0
 nmap <leader>g :YcmCompleter GoTo<CR>
 nmap <leader>d :YcmCompleter GoToDefinition<CR>
 
+"=====================================================
 " VimAutoSave
-let g:auto_save = 1  " enable AutoSave on Vim startup"
+"=====================================================
+" let g:auto_save = 1  " enable AutoSave on Vim startup"
 
-" Vimtex
-let g:vimtex_view_method = 'zathura'
-
+"=====================================================
 " vim-latex-live-preview
+"=====================================================
 let g:livepreview_previewer = 'zathura'
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"=====================================================
 " CSCOPE settings for vim           
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"=====================================================
 "
 " This file contains some boilerplate settings for vim's cscope interface,
 " plus some keyboard mappings that I've found useful.

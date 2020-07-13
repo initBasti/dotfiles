@@ -1,0 +1,37 @@
+Debian:
+
+Add user to sudoers:
+
+https://linoxide.com/linux-how-to/boot-root-shell-prompting-password/
+
+usermod -aG sudo username
+or
+gpasswd -a username sudo
+
+___
+
+sudo apt-get update && sudo apt-get install build-essentials git neomutt mbsync msmtp vim libxft-dev i3 keepassxc cmake taskwarrior python3-dev vim-gui-common xclip npm flex bison libncurses-dev
+
+i3-config-wizard
+
+cd ~ && mkdir -p Apps && cd Apps && git clone https://github.com/LukeSmithxyz/st.git
+
+cd st && make && sudo make install
+
+# get keepass password database from usb stick
+
+cd ~ && git clone https://rocketgit.com/user/initBasti/dotfiles
+
+cd dotfiles && cp config.h ~/st/ && cp .vimrc ~ && cp .mbsyncrc ~ && cp .msmtprc ~ && cp .i3config ~/.config/i3/config && cp .bash_profile ~ && cp .neomuttrc ~
+
+cd ~ && vim +PluginInstall
+
+cd ~/.vim/bundle/YouCompleteMe && python3 install.py --clangd-completer 
+
+sudo npm i npm@latest -g && sudo npm install -g livedown
+
+cd ~ && mkdir -p ~/Mail/kernel-gmail/{archive/{cur,tmp,new}, Inbox/{cur,tmp,new}, junk/{cur,tmp,new}, linux-insides/{cur,tmp,new}, linux-rt/{cur,tmp,new}, sent/{cur,tmp,new}, linux-next/{cur,tmp,new}, linux-rt/{cur,tmp,new}, trash/{cur,tmp,new}, linux-newbies/{cur, tmp, new}}
+
+cd ~/Downloads && wget https://github.com/GothenburgBitFactory/timewarrior/releases/download/v1.2.0/timew-1.2.0.tar.gz
+tar -xf timew-1.2.0.tar.gz && mv timew-1.2.0 ~/Apps && cd ~/Apps/timew-1.2.0 && cmake . && make && sudo make install
+

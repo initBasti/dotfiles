@@ -7,10 +7,16 @@ mailboxes =kernel-gmail
 mailboxes =kernel-gmail/Inbox =kernel-gmail/sent =kernel-gmail/junk =kernel-gmail/trash =kernel-gmail/drafts =kernel-gmail/archive
 mailboxes =--------------
 mailboxes =Linux-kernel
-mailboxes =kernel-gmail/linux-rt =kernel-gmail/linux-newbies =kernel-gmail/linux-next
+mailboxes =kernel-gmail/linux-newbies =kernel-gmail/media
+mailboxes =--------------
+mailboxes =Libcamera
+mailboxes =kernel-gmail/libcamera
 mailboxes =--------------
 mailboxes =Linux-Insides-Book
 mailboxes =kernel-gmail/linux-insides
+mailboxes =--------------
+mailboxes =Apply_patches
+mailboxes =kernel-gmail/local_git_apply
 
 set realname = "Sebastian Fricke"
 # ================  Composition  ====================
@@ -50,6 +56,8 @@ unset confirmappend
 unset move
 unset mark_old
 unset beep_new
+set collapse_all = yes
+set uncollapse_new = no
 
 # compose View Options
 set envelope_from                    # which from?

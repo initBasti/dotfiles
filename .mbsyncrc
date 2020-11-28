@@ -2,7 +2,7 @@ IMAPAccount gmail
 # Address to connect to
 Host imap.gmail.com
 User sebastian.fricke.linux@gmail.com
-PassCmd "gpg --batch -q --decrypt ~/.mutt/gmailaccount.gpg"
+PassCmd "gpg --batch -q --decrypt ~/.mutt/gmailaccount_2.gpg"
 # To store the password in an encrypted file use PassCmd instead of Pass
 # PassCmd "gpg2 -q --for-your-eyes-only --no-tty -d ~/.mailpass.gpg"
 #
@@ -40,34 +40,33 @@ Channel gmail-spam
 Master :gmail-remote:"[Gmail]/Spam"
 Slave :gmail-local:junk
 
-Channel gmail-linux-rt
-Master :gmail-remote:
-Slave :gmail-local:
-Patterns "linux-rt"
-
 Channel gmail-linux-newbies
 Master :gmail-remote:
 Slave :gmail-local:
 Patterns "linux-newbies"
-
-Channel gmail-linux-next
-Master :gmail-remote:
-Slave :gmail-local:
-Patterns "linux-next"
 
 Channel gmail-linux-insides
 Master :gmail-remote:
 Slave :gmail-local:
 Patterns "linux-insides"
 
+Channel gmail-media
+Master :gmail-remote:
+Slave :gmail-local:
+Patterns "media"
+
+Channel gmail-libcamera
+Master :gmail-remote:
+Slave :gmail-local:
+Patterns "libcamera"
+
 Group gmail
 Channel gmail-inbox
 Channel gmail-sent
 Channel gmail-trash
-Channel gmail-linux-rt
 Channel gmail-linux-newbies
-Channel gmail-linux-next
 Channel gmail-linux-insides
+Channel gmail-media
 
 # Save the synchronization state files in the relevant directory
 SyncState *

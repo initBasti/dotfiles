@@ -36,11 +36,14 @@ call vundle#begin()
     Plugin 'rosenfeld/conque-term'              " Consoles as buffers
     Plugin 'tpope/vim-surround'                 " Parentheses, brackets, quotes, XML tags, and more
     Plugin 'flazz/vim-colorschemes'             " Colorschemes
-    Plugin 'float168/vim-colors-cherryblossom'  " Colorscheme Cherryblossom
+    Plugin 'dracula/vim', { 'name': 'dracula' } " Colorscheme Dracula
     Plugin 'itmammoth/doorboy.vim'              " Autoclose Brackets
     Plugin 'xuhdev/vim-latex-live-preview'      " latex live preview
     Plugin 'tpope/vim-unimpaired'               " Bracket mappings
     Plugin 'tpope/vim-repeat'                   " repeat plugin commands also with .
+    Plugin 'aklt/plantuml-syntax'               " PlantUML diagram syntax
+    Plugin 'tyru/open-browser.vim'              " URI for a browser (dep for plantuml previewer)
+    Plugin 'weirongxu/plantuml-previewer.vim'   " plantuml previewer
 
     "-------------------=== Snippets support ===--------------------
     Plugin 'garbas/vim-snipmate'                " Snippets manager
@@ -54,6 +57,8 @@ call vundle#begin()
     Plugin 'lervag/vimtex'                      " Tex Support for VIM
     Plugin 'rhysd/vim-grammarous'               " Grammer check support
     Plugin 'shime/vim-livedown'                 " Markdown preview
+    Plugin 'Rykka/InstantRst'                   " ReStructured text preview
+    Plugin 'Rykka/riv.vim'                      " Support for rst writing
 
     "-------------------=== Python  ===-----------------------------
     Plugin 'klen/python-mode'                   " Python mode (docs, refactor, lints...)
@@ -75,7 +80,7 @@ syntax enable                               " syntax highlight
 
 set t_Co=256
 set background=dark
-colorscheme cherryblossom
+colorscheme dracula
 
 set number                                  " show line numbers
 set relativenumber
@@ -108,8 +113,13 @@ set splitbelow splitright                   " create splits to the bottom (hori.
 
 set exrc                                    " enable usage of additional .vimrc files from working directory
 set secure                                  " prohibit .vimrc files to execute shell, create files, etc...
+set nofoldenable                            " disable folding by default and activate it again with: `zc`
 
 au FocusLost * silent! wa             " whenever the buffer loses focues save
+
+" Make it possible to create local vim settings for a project with a .vimlocal
+" file
+silent! so .vimlocal
 
 " Additional mappings for Esc (useful for MacBook with touch bar)
 inoremap jk <Esc>
@@ -152,6 +162,7 @@ nmap <silent> <leader>q :SyntasticCheck # <CR> :bp <BAR> bd #<CR>
 "=====================================================
 " configure expanding of tabs for various file types
 au BufRead,BufNewFile *.py set expandtab
+au BufRead,BufNewFile *.cpp set expandtab
 au BufRead,BufNewFile *.c set noexpandtab
 au BufRead,BufNewFile *.h set noexpandtab
 au BufRead,BufNewFile Makefile* set noexpandtab
@@ -354,6 +365,8 @@ nmap <leader>d :YcmCompleter GoToDefinition<CR>
 " vim-latex-live-preview
 "=====================================================
 let g:livepreview_previewer = 'zathura'
+
+let g:tex_flavor = 'latex'
 
 "=====================================================
 " CSCOPE settings for vim           

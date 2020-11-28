@@ -1,0 +1,53 @@
+set from = "sebastian.fricke.linux@gmail.com"
+set sendmail = "/usr/bin/msmtp -a gm"
+
+# Set folders
+set spoolfile = "+kernel-gmail/Inbox"
+set mbox = "+kernel-gmail/archive"
+set postponed = "+kernel-gmail/drafts"
+set record = "+kernel-gmail/sent"
+set trash = "+kernel-gmail/trash"
+
+color status cyan default
+
+macro index o "<shell-escape>mbsync mailbox<enter>" "run mbsync to sync mail for this account"
+
+# Apply the patch
+macro index L '|git am -s'\n
+
+# Apply the patch with 3 way merge
+macro index <Esc>L '|git am -s -3'\n
+
+macro index,pager s \
+  "<enter-command>set my_old_resolve=\$resolve noresolve<enter>\
+  <tag-prefix><clear-flag>n<enter-command>set resolve=\$my_old_resolve<enter>\
+  <save-message>+kernel-gmail/junk<enter>" \
+  "mark as read and move to junk folder"
+
+macro index,pager a \
+  "<save-message>+kernel-gmail/archive<enter>"  \
+  "move message to the archive"
+
+macro index,pager i \
+  "<save-message>+kernel-gmail/Inbox<enter>"  \
+  "move message to the inbox"
+
+macro index,pager <Esc>1 \
+    "<save-message>+kernel-gmail/linux-newbies<enter>" \
+    "move message to linux-newbies folder"
+
+macro index,pager <Esc>2 \
+    "<save-message>+kernel-gmail/media<enter>" \
+    "move message to the linux kernel media folder"
+
+macro index,pager <Esc>3 \
+    "<save-message>+kernel-gmail/libcamera<enter>" \
+    "move message to the libcamera folder"
+
+macro index,pager <Esc>9 \
+    "<save-message>+kernel-gmail/local_git_apply<enter>" \
+    "move message to a local folder used to apply patches"
+
+macro index,pager <Esc>0 \
+    "<save-message>+kernel-gmail/sent<enter>" \
+    "move message to sent folder"
